@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sysdig-agent
+  namespace: sysdig-agent
+data:
+  dragent.yaml: |
+    configmap: true
+    ### Agent tags
+    # tags: linux:ubuntu,dept:dev,local:nyc
+
+    #### Sysdig Software related config ####
+
+    # Sysdig collector address
+    # collector: 192.168.1.1
+
+    # Collector TCP port
+    # collector_port: 6666
+
+    # Whether collector accepts ssl
+    # ssl: true
+
+    # collector certificate validation
+    # ssl_verify_certificate: true
+
+    #######################################
+    new_k8s: true
+    k8s_cluster_name: cicd-cluster
+    security:
+      k8s_audit_server_url: 0.0.0.0
+      k8s_audit_server_port: 7765
+    collector: collector.sysdigcloud.com
+    collector_port: 6443
+    ssl: true
+    ssl_verify_certificate: true
+    new_k8s: true
+    k8s_cluster_name: spinnaker
+    prometheus:
+      ingest_raw: false
+      ingest_calculated: true
+      enabled: true
+      max_metrics: 5000
+      max_metrics_per_process: 5000
+      histograms: true
+    use_promscrape: true
+    socket_timeout: 1000 # The socket timeout in milliseconds for sending a message to the backend (default: 1000)
+    transmit_delay: 1 # The delay between messages, in milliseconds (default: 1 )
+    k8s_export_format:
+      global: dedicated
+      local: dedicated
+    k8s_extra_resources: 
+      include:
+        - podstatuscounter
+    k8s_pod_status_reason_strings:
+      - Pending
+      - ImagePullBackOff
+      - Evicted
+      - DeadlineExceeded
+      - Error
+      - ContainerCreating
+      - CrashLoopBackOff
+      - Running
+    # metricsfile:
+    #   location: metrics
+    # log:
+    #   console_priority: debug
+    #   file_priority: debug
