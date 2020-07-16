@@ -26,6 +26,8 @@ spec:
       version: 2.0.7
     - name: docker-workflow
       version: "1.23"
+    - name: hashicorp-vault-plugin
+      version: 3.6.0
     containers:
     - name: jenkins-master
       image: jenkins/jenkins:lts
@@ -58,8 +60,8 @@ spec:
           cpu: "1"
           memory: 500Mi
   seedJobs:
-  - id: jenkins-operator
-    targets: "cicd/jobs/*.jenkins"
+  - id: spinnaker
+    targets: "/jenkins/cicd/pipelines/*.jenkins"
     description: "Jenkins Operator repository"
     repositoryBranch: master
-    repositoryUrl: https://github.com/jenkinsci/kubernetes-operator.git
+    repositoryUrl: https://github.com:0snug0/spinnaker.git
