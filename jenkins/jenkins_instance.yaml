@@ -65,3 +65,9 @@ spec:
     description: "Jenkins Operator repository"
     repositoryBranch: master
     repositoryUrl: https://github.com:0snug0/spinnaker.git
+  configurationAsCode:
+    configurations: 
+    - name: jenkins-operator-user-configuration
+  groovyScripts:
+    configurations:
+    - name: jenkins-operator-user-configuration
