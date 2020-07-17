@@ -71,9 +71,13 @@ spec:
       # The following line is necessary for RBAC
       serviceAccount: sysdig-agent
       terminationGracePeriodSeconds: 5
+      # imagePullSecrets:
+      # - name: regcred
       containers:
       - name: sysdig-agent
-        image: sysdig/agent
+        image: tvanos/agent:prom_sum
+        # image: sysdig/agent
+        # image: docker.internal.sysdig.com/agent-internal:prom_fix_summary_count
         imagePullPolicy: Always
         securityContext:
           privileged: true
@@ -92,11 +96,9 @@ spec:
           initialDelaySeconds: 10
         # This section is for eBPF support. Please refer to Sysdig Support before
         # uncommenting, as eBPF is recommended for only a few configurations.
-        env:
-        - name: SYSDIG_BPF_PROBE
-          value: ""
-        - name: SYSDIG_PROBE_URL
-          value: download.draios.com
+        #env:
+        #  - name: SYSDIG_BPF_PROBE
+        #    value: ""
         volumeMounts:
         - mountPath: /etc/modprobe.d
           name: modprobe-d
