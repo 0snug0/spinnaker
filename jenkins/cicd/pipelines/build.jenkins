@@ -10,9 +10,6 @@ podTemplate(label: label,
                 containerTemplate(name: 'jnlp', image: 'jenkins/inbound-agent:alpine', args: '${computer.jnlpmac} ${computer.name}'),
                 containerTemplate(name: 'go', image: 'golang:1-alpine', command: 'cat', ttyEnabled: true),
         ]
-        envVars: [
-                envVar(key: 'GOPATH', value: workspace),
-        ],
         ) {
 
     node(label) {
