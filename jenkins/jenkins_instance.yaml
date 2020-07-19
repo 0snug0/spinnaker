@@ -28,6 +28,8 @@ spec:
       version: "1.23"
     - name: hashicorp-vault-plugin
       version: 3.6.0
+    - name: simple-theme-plugin
+      version: 0.5.1
     containers:
     - name: jenkins-master
       image: jenkins/jenkins:lts
@@ -68,6 +70,8 @@ spec:
   configurationAsCode:
     configurations: 
     - name: jenkins-operator-user-configuration
+    secret:
+      name: sysdig-api-secret
   groovyScripts:
     configurations:
     - name: jenkins-operator-user-configuration

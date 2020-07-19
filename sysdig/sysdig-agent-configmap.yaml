@@ -42,7 +42,7 @@ data:
       max_metrics: 5000
       max_metrics_per_process: 5000
       histograms: true
-    use_promscrape: false
+    use_promscrape: true
     socket_timeout: 1000 # The socket timeout in milliseconds for sending a message to the backend (default: 1000)
     transmit_delay: 1 # The delay between messages, in milliseconds (default: 1 )
     k8s_export_format:

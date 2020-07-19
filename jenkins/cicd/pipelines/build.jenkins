@@ -5,6 +5,7 @@ def home = "/home/jenkins"
 def workspace = "${home}/workspace/build-jenkins-operator"
 def workdir = "${workspace}/src/github.com/jenkinsci/kubernetes-operator/"
 
+
 podTemplate(label: label,
         containers: [
                 containerTemplate(name: 'jnlp', image: 'jenkins/inbound-agent:alpine'),
@@ -45,4 +46,27 @@ podTemplate(label: label,
             }
         }
     }
+}
+
+podTemplate(label: label,
+        containers: [
+                containerTemplate(name: 'jnlp', image: 'jenkins/jnlp-slave:alpine'),
+                containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
+            ],
+            volumes: [
+                hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock'),
+            ],
+        ]) {
+    node(label) {
+        dir(workdir) {
+            stage('Docker Build') {
+                container('docker') {
+                    echo "Building docker image..."
+                    sh "docker pull nginx"
+                }
+            }
+        }
+    }
+
+    
 }

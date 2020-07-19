@@ -5,11 +5,46 @@ metadata:
 data:
   1-system-message.yaml: |
     jenkins:
-      systemMessage: "Configuration as Code integration works!!!"
+      systemMessage: "testing configmap"
+      clouds:
+      - kubernetes:
+          jenkinsTunnel: "jenkins-operator-slave-scanning.default.svc.cluster.local:50000"
+          jenkinsUrl: "http://jenkins-operator-http-scanning.default.svc.cluster.local:8080"
+          name: "kubernetes"
+          namespace: "default"
+          retentionTimeout: 15
+          serverUrl: "https://kubernetes.default.svc.cluster.local:443"
+          templates:
+          - annotations:
+            - key: "prometheus.io/path"
+              value: "/prometheus"
+            - key: "prometheus.io/port"
+              value: "8080"
+            - key: "prometheus.io/scrape"
+              value: "true"
+            containers:
+            - args: "cat"
+              command: "/bin/sh -c"
+              image: "jenkinsci/jnlp-slave"
+              livenessProbe:
+                failureThreshold: 0
+                initialDelaySeconds: 0
+                periodSeconds: 0
+                successThreshold: 0
+                timeoutSeconds: 0
+              name: "jenkins-slave"
+              ttyEnabled: true
+              workingDir: "/home/jenkins"
+            hostNetwork: false
+            label: "jenkins-slave"
+            name: "jenkins-slave"
+            nodeUsageMode: "NORMAL"
+            yamlMergeStrategy: "override"
+    unclassified:
       sysdigSecure:
         debug: false
         enginemode: "anchoreengine"
-        enginepass: "{vault:secret/data/accounts/sysdig#SDC_SECURE_TOKEN}"
-        engineurl: "https://secures.sysdig.com/api/scanning/v1/anchore"
+        enginepass: ${SDC_SECURE_TOKEN}
+        engineurl: "https://secure.sysdig.com/api/scanning/v1/anchore"
         engineverify: false
         useSudo: false
