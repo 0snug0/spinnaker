@@ -19,6 +19,8 @@ spec:
         version: "1.38"
       - name: kubernetes-credentials-provider
         version: "0.13"
+      - name: durable-task
+        version: "1.33"
     plugins:
     - name: sysdig-secure
       version: "1.0.19.3"

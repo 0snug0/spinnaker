@@ -1,70 +1,36 @@
 #!/usr/bin/env groovy
 
-def label = "build-jenkins-operator-${UUID.randomUUID().toString()}"
+def label = "docker-jenkins-${UUID.randomUUID().toString()}"
 def home = "/home/jenkins"
-def workspace = "${home}/workspace/build-jenkins-operator"
-def workdir = "${workspace}/src/github.com/0snug0/spinnaker/kubernetes-operator/"
+def workspace = "${home}/workspace/build-docker-jenkins"
+def workdir = "${workspace}/src/localhost/docker-jenkins/"
 
-// podTemplate(label: label,
-//         containers: [
-//                 containerTemplate(name: 'jnlp', image: 'jenkins/jnlp-slave:alpine'),
-//                 containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
-//             ],
-//             volumes: [
-//                 hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock'),
-//             ],
-//         ) {
-//     node(label) {
-//         dir(workdir) {
-//             stage('Docker Build') {
-//                 container('docker') {
-//                     echo "Building docker image..."
-//                     sh "docker pull nginx"
-//                 }
-//             }
-//         }
-//     }
-// }
+def ecrRepoName = "my-jenkins"
+def tag = "$ecrRepoName:latest"
 
 podTemplate(label: label,
         containers: [
-                containerTemplate(name: 'jnlp', image: 'jenkins/inbound-agent:alpine'),
-                containerTemplate(name: 'go', image: 'golang:1-alpine', command: 'cat', ttyEnabled: true),
-        ],
-        envVars: [
-                envVar(key: 'GOPATH', value: workspace),
-        ],
+                containerTemplate(name: 'jnlp', image: 'jenkins/jnlp-slave:alpine'),
+                containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
+            ],
+            volumes: [
+                hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock'),
+            ],
         ) {
-
     node(label) {
         dir(workdir) {
-            stage('Init') {
+            stage('Checkout') {
                 timeout(time: 3, unit: 'MINUTES') {
-                    checkout scm
-                }
-                container('go') {
-                    sh 'apk --no-cache --update add make git gcc libc-dev'
+                    echo "checkout" 
                 }
             }
 
-            stage('Dep') {
-                container('go') {
-                    sh 'make dep'
-                }
-            }
-
-            stage('Test') {
-                container('go') {
-                    sh 'make test'
-                }
-            }
-
-            stage('Build') {
-                container('go') {
-                    sh 'make build'
+            stage('Docker Build') {
+                container('docker') {
+                    echo "Building docker image..."
+                    sh "docker tag docker docker:retag"
                 }
             }
         }
     }
 }
-
