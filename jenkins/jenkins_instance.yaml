@@ -67,7 +67,7 @@ spec:
           memory: 500Mi
   seedJobs:
   - id: spinnaker
-    targets: "/jenkins/cicd/pipelines/*.jenkins"
+    targets: "jenkins/cicd/pipelines/*.jenkins"
     description: "Jenkins Operator repository"
     repositoryBranch: master
     repositoryUrl: https://github.com/0snug0/spinnaker
