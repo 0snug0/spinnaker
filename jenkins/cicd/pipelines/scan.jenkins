@@ -33,8 +33,7 @@ podTemplate(label: label,
             }
             stage('Sysdig Scan'){
                 container('docker') {
-                    // sh "echo 'nginx ${WORKSPACE}/Dockerfile'  > sysdig_secure_images"
-                    writeFile file: 'sysdig_secure_images', text: "nginx ${WORKSPACE}/Dockerfile"
+                    writeFile file: 'sysdig_secure_images', text: "nginx"
                     sysdigSecure 'sysdig_secure_images'
                 }
             }
