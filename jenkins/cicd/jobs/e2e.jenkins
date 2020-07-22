@@ -19,13 +19,12 @@ pipelineJob('e2e-jenkins-operator') {
             scm {
                 git {
                     remote {
-                        url('https://github.com/jenkinsci/kubernetes-operator.git')
-                        credentials('jenkins-operator')
+                        url('https://github.com/0snug0/spinnaker.git')
                     }
                     branches('*/master')
                 }
             }
-            scriptPath('cicd/pipelines/e2e.jenkins')
+            scriptPath('jenkins/cicd/pipelines/e2e.jenkins')
         }
     }
 }

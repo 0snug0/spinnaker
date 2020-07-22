@@ -19,13 +19,12 @@ pipelineJob('build-jenkins-operator') {
             scm {
                 git {
                     remote {
-                        url('https://github.com/jenkinsci/kubernetes-operator.git')
-                        credentials('jenkins-operator')
+                        url('https://github.com/0snug0/spinnaker.git')
                     }
                     branches('*/master')
                 }
             }
-            scriptPath('cicd/pipelines/build.jenkins')
+            scriptPath('jenkins/cicd/pipelines/build.jenkins')
         }
     }
 }
