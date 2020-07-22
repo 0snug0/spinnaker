@@ -7,13 +7,14 @@ def workdir = "${workspace}/src/github.com/jenkinsci/kubernetes-operator/"
 
 podTemplate(label: label,
         containers: [
-                containerTemplate(name: 'alpine', image: 'alpine:3.11', ttyEnabled: true, command: 'cat'),
+            containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true)
         ],
         ) {
     node(label) {
-        stage('Run shell') {
-            container('alpine') {
-                sh 'echo "hello world"'
+        stage('scan image') {
+            container('docker') {
+                writeFile file: 'sysdig_secure_images', text: "nginx"
+                sysdigSecure 'sysdig_secure_images'            
             }
         }
     }
