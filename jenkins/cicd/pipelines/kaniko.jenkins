@@ -35,7 +35,7 @@ spec:
           """
             
           sh '''#!/busybox/sh
-            /kaniko/executor --context `pwd` --verbosity debug --destination 0snug0/private:jnlp-from-kaniko
+            /kaniko/executor --context `pwd` --verbosity debug --destination 0snug0/jnlp-from-kaniko:latest
           '''
         }
       }
