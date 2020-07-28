@@ -12,10 +12,8 @@ spec:
     workingDir: /home/jenkins
   - name: kaniko
     workingDir: /home/jenkins
-    image: gcr.io/kaniko-project/executor
+    image: gcr.io/kaniko-project/executor:debug
     imagePullPolicy: Always
-    command:
-    - /bin/sh
     tty: true
 """
     }
