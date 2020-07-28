@@ -22,7 +22,7 @@ spec:
         mountPath: /secret
     env:
       - name: GOOGLE_APPLICATION_CREDENTIALS
-        value: /secret/kaniko-secret.json
+        value: /secret/istio-next-4-38cdc932e26f.json
   restartPolicy: Never
   volumes:
     - name: kaniko-secret
