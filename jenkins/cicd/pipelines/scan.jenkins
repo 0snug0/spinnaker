@@ -1,0 +1,31 @@
+#!/usr/bin/env groovy
+
+def label = "k8sagent-e2e"
+def home = "/home/jenkins"
+def workspace = "${home}/workspace/build-jenkins-operator"
+def workdir = "${workspace}/src/github.com/jenkinsci/kubernetes-operator/"
+
+podTemplate(label: label,
+        containers: [
+            containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true)
+        ],
+        ) {
+    node(label) {
+        dir(workdir) {
+            stage('Init') {
+                timeout(time: 3, unit: 'MINUTES') {
+                    checkout scm
+                }
+                container('docker') {
+                    sh 'apk --no-cache --update add make git gcc libc-dev'
+                }
+            }
+            stage('scan image') {
+                container('docker') {
+                    writeFile file: 'sysdig_secure_images', text: "nginx"
+                    sysdigSecure 'sysdig_secure_images'            
+                }
+            }
+        }
+    }
+}
