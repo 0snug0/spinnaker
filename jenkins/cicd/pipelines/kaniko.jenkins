@@ -54,7 +54,7 @@ spec:
     stage('Scan with Sysdig') {
         steps {
             sh "echo 'gcr.io/istio-next-4/jnlp-from-kaniko:latest' > sysdig_secure_images"
-            sysdigSecure 'sysdig_secure_images'
+            sysdigSecure engineCredentialsId: 'SDC_SECURE_TOKEN', name: 'sysdig_secure_images'
         }
     }
   }
