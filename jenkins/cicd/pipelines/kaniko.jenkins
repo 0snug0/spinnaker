@@ -42,7 +42,7 @@ spec:
           writeFile file: "Dockerfile", text: """
             FROM jenkins/slave:3.29-2
             MAINTAINER CloudBees Support Team <dse-team@cloudbees.com>
-            RUN mkdir /home/jenkins/.m2
+            RUN mkdir /home/jenkins/.m3
           """
             
           sh '''#!/busybox/sh
